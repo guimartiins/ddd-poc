@@ -9,13 +9,25 @@ export default class Customer {
 
 	_id: string
 	_name: string = ''
-	_address: Address = new Address('', '', '', '')
+	_address?: Address
 	_active: boolean = false
 
 	constructor(id: string, name: string) {
 		this._id = id
 		this._name = name
 		this.validate()
+	}
+
+	get name(): string {
+		return this._name
+	}
+
+	get address(): Address | undefined {
+		return this._address
+	}
+
+	changeAddress(address: Address) {
+		this._address = address
 	}
 
 	validate() {
@@ -33,10 +45,14 @@ export default class Customer {
 	}
 
 	activate() {
-		if (!this._address.validate()) {
+		if (!this._address) {
 			throw new Error('Address is invalid')
 		}
 		this._active = true
+	}
+
+	isActive(): boolean {
+		return this._active
 	}
 }
 
