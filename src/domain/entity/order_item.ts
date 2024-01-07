@@ -21,16 +21,36 @@ export default class OrderItem {
 		this.validate()
 	}
 
-	validate() {
-		if (this._quantity <= 0)
-			throw new Error('Quantity must be greater than 0')
+	get id(): string {
+		return this._id
+	}
+
+	get name(): string {
+		return this._name
+	}
+
+	get quantity(): number {
+		return this._quantity
 	}
 
 	get price(): number {
 		return this._price
 	}
 
+	get productId(): string {
+		return this._productId
+	}
+
+	validate() {
+		if (this._quantity <= 0)
+			throw new Error('Quantity must be greater than 0')
+	}
+
 	orderItemTotal(): number {
 		return this._price * this._quantity
+	}
+
+	changeQuantity(quantity: number): void {
+		this._quantity = quantity
 	}
 }
