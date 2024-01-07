@@ -11,11 +11,16 @@ export default class Customer {
 	_name: string = ''
 	_address?: Address
 	_active: boolean = false
+	private _rewardPoints: number = 0
 
 	constructor(id: string, name: string) {
 		this._id = id
 		this._name = name
 		this.validate()
+	}
+
+	get id(): string {
+		return this._id
 	}
 
 	get name(): string {
@@ -24,6 +29,10 @@ export default class Customer {
 
 	get address(): Address | undefined {
 		return this._address
+	}
+
+	get rewardPoints(): number {
+		return this._rewardPoints
 	}
 
 	changeAddress(address: Address) {
@@ -54,6 +63,8 @@ export default class Customer {
 	isActive(): boolean {
 		return this._active
 	}
-}
 
-// wrong approach: const customer = new Customer('1')
+	addRewardPoints(points: number) {
+		this._rewardPoints += points
+	}
+}
