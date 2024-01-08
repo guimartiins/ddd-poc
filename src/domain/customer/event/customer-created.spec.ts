@@ -1,13 +1,13 @@
 import EventDispatcher from '../../@shared/event/event-dispatcher'
 import { CustomerCreatedEvent } from './customer-created.event'
-import { SendConsoleLogWhenCustomerIsCreatedHandler } from './handler/send-console-log-when-customer-is-created.handler'
-import SendConsoleLogWithDataWhenCustomerIsCreatedHandler from './handler/send-console-with-data-when-customer-is-created.handler'
+import { SendFirstConsoleLogWhenCustomerIsCreatedHandler } from './handler/send-first-console-log-when-customer-is-created.handler'
+import { SendSecondConsoleLogWhenCustomerIsCreatedHandler } from './handler/send-second-console-log-when-customer-is-created.handler'
 
 describe('Customer created event unit tests', () => {
 	it('should send two console.logs when customer is created', () => {
 		const eventDispatcher = new EventDispatcher()
 		const firstEventHandler =
-			new SendConsoleLogWhenCustomerIsCreatedHandler()
+			new SendFirstConsoleLogWhenCustomerIsCreatedHandler()
 		eventDispatcher.register('CustomerCreatedEvent', firstEventHandler)
 
 		const firstEventHandlerSpy = jest.spyOn(firstEventHandler, 'handle')
@@ -21,7 +21,7 @@ describe('Customer created event unit tests', () => {
 		).toBe(1)
 
 		const secondEventHandler =
-			new SendConsoleLogWithDataWhenCustomerIsCreatedHandler()
+			new SendSecondConsoleLogWhenCustomerIsCreatedHandler()
 		const secondEventHandlerSpy = jest.spyOn(secondEventHandler, 'handle')
 		const secondConsoleLogSpy = jest.spyOn(console, 'log')
 		eventDispatcher.register('CustomerCreatedEvent', secondEventHandler)
@@ -40,8 +40,12 @@ describe('Customer created event unit tests', () => {
 		eventDispatcher.notify(customer)
 
 		expect(firstEventHandlerSpy).toHaveBeenCalled()
-		expect(firstConsoleLogSpy).toHaveBeenCalledWith('Customer created!')
+		expect(firstConsoleLogSpy).toHaveBeenCalledWith(
+			'Esse é o primeiro console.log do evento: CustomerCreated!'
+		)
 		expect(secondEventHandlerSpy).toHaveBeenCalled()
-		expect(secondConsoleLogSpy).toHaveBeenCalledWith(customerData)
+		expect(secondConsoleLogSpy).toHaveBeenCalledWith(
+			'Esse é o segundo console.log do evento: CustomerCreated!'
+		)
 	})
 })
